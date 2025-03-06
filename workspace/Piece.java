@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
+import javax.imageio.ImageIO; 
 
 //you will need to implement two functions in this file.
 public class Piece {
@@ -50,8 +50,84 @@ public class Piece {
     //return a list of every square that is "controlled" by this piece. A square is controlled
     //if the piece capture into it legally.
     public ArrayList<Square> getControlledSquares(Square[][] board, Square start) {
-     return null;
+      ArrayList<Square> moves = new ArrayList<Square>();
+      boolean same = true;
+      
+      if(start.getCol() != 0){
+        if(start.getCol() != 1){
+          if((board[start.getRow()][start.getCol()-1]).isOccupied() == false){
+          moves.add(board[start.getRow()][start.getCol()-2]);
+          }
+          }
+          
+          moves.add(board[start.getRow()][start.getCol()-1]);
+          
+        }
+      if(start.getCol() < 7){
+        if(start.getCol() < 6){
+          if((board[start.getRow()][start.getCol()+1]).isOccupied() == false){
+            moves.add(board[start.getRow()][start.getCol()+2]);
+          }
+        }
+        moves.add(board[start.getRow()][start.getCol()+1]);
+      
+      }
+     if(start.getRow() != 0){
+      if(start.getRow() != 1){
+        if((board[start.getRow()-1][start.getCol()]).isOccupied() == false){
+          moves.add(board[start.getRow()-2][start.getCol()]);
+        }
+      }
+           moves.add(board[start.getRow()-1][start.getCol()]);
+      
+     }
+     if(start.getRow() != 7){
+      if(start.getRow() != 6){
+        if((board[start.getRow()+1][start.getCol()]).isOccupied() == false){
+                moves.add(board[start.getRow()+2][start.getCol()]);
+        }
+      }
+             moves.add(board[start.getRow()+1][start.getCol()]);
+      
+     }
+     if(start.getRow() != 7 && start.getCol() != 7){
+      if(start.getRow() != 6 && start.getCol() != 6){
+        if(board[start.getRow()+1][start.getCol()+1].isOccupied() == false){
+                    moves.add(board[start.getRow()+2][start.getCol()+2]);
+        }
+      }
+           moves.add(board[start.getRow()+1][start.getCol()+1]);
+      
+     }
+     if(start.getRow() != 7 && start.getCol() != 0){
+      if(start.getRow() != 6 && start.getCol() != 1){
+        if(board[start.getRow()+1][start.getCol()-1].isOccupied() == false){
+                    moves.add(board[start.getRow()+2][start.getCol()-2]);
+        }
+      }
+            moves.add(board[start.getRow()+1][start.getCol()-1]);
+      
+     }
+     if(start.getRow() != 0 && start.getCol() != 7){
+      if(start.getRow() != 1 && start.getCol() != 6){
+        if(board[start.getRow()-1][start.getCol()+1].isOccupied() == false){
+                    moves.add(board[start.getRow()-2][start.getCol()+2]);
+        }
+      }
+            moves.add(board[start.getRow()-1][start.getCol()+1]);
+     }
+     if(start.getRow() != 0 && start.getCol() != 0){
+      if(start.getRow() != 1 && start.getCol() != 1){
+        if(board[start.getRow()-1][start.getCol()-1].isOccupied() == false){
+                    moves.add(board[start.getRow()-2][start.getCol()-2]);
+        }
+      }
+          moves.add(board[start.getRow()-1][start.getCol()-1]);
+
+     }
+    	return moves;
     }
+    
     
 
     //TO BE IMPLEMENTED!
@@ -61,6 +137,90 @@ public class Piece {
     //please note that your piece must have some sort of logic. Just being able to move to every square on the board is not
     //going to score any points.
     public ArrayList<Square> getLegalMoves(Board b, Square start){
-    	return null;
+      ArrayList<Square> moves = new ArrayList<Square>();
+      boolean same = true;
+      
+      if(start.getCol() != 0){
+        if(start.getCol() != 1){
+          if((b.getSquareArray()[start.getRow()][start.getCol()-1]).isOccupied() == false && (!b.getSquareArray()[start.getRow()][start.getCol()-2].isOccupied() || (b.getSquareArray()[start.getRow()][start.getCol()-2]).getColor() != color )){
+          moves.add(b.getSquareArray()[start.getRow()][start.getCol()-2]);
+          }
+          }
+          if(!b.getSquareArray()[start.getRow()][start.getCol()-1].isOccupied() ||(b.getSquareArray()[start.getRow()][start.getCol()-1]).getOccupyingPiece().getColor() != color){
+          moves.add(b.getSquareArray()[start.getRow()][start.getCol()-1]);
+          }
+        }
+      if(start.getCol() < 7){
+        if(start.getCol() < 6){
+          if((b.getSquareArray()[start.getRow()][start.getCol()+1]).isOccupied() == false &&(!b.getSquareArray()[start.getRow()][start.getCol()+2].isOccupied() || (b.getSquareArray()[start.getRow()][start.getCol()+2]).getColor() != color)){
+            moves.add(b.getSquareArray()[start.getRow()][start.getCol()+2]);
+          }
+        }
+        if(!b.getSquareArray()[start.getRow()][start.getCol()+1].isOccupied() || b.getSquareArray()[start.getRow()][start.getCol()+1].getOccupyingPiece().getColor() != color){
+        moves.add(b.getSquareArray()[start.getRow()][start.getCol()+1]);
+        }
+      }
+     if(start.getRow() != 0){
+      if(start.getRow() != 1){
+        if((b.getSquareArray()[start.getRow()-1][start.getCol()]).isOccupied() == false && (!b.getSquareArray()[start.getRow()-2][start.getCol()].isOccupied() || (b.getSquareArray()[start.getRow()-2][start.getCol()]).getOccupyingPiece().getColor() != color)){
+        moves.add(b.getSquareArray()[start.getRow()-2][start.getCol()]);
+        }
+      }
+      if(!b.getSquareArray()[start.getRow()-1][start.getCol()].isOccupied() || (b.getSquareArray()[start.getRow()-1][start.getCol()]).getOccupyingPiece().getColor() != color){
+        moves.add(b.getSquareArray()[start.getRow()-1][start.getCol()]);
+      }
+     }
+     if(start.getRow() != 7){
+      if(start.getRow() != 6){
+        if((b.getSquareArray()[start.getRow()+1][start.getCol()]).isOccupied() == false && ((!b.getSquareArray()[start.getRow()+2][start.getCol()].isOccupied() ||(b.getSquareArray()[start.getRow()+2][start.getCol()]).getOccupyingPiece().getColor()!= color))){
+        moves.add(b.getSquareArray()[start.getRow()+2][start.getCol()]);
+        }
+      }
+      if(!b.getSquareArray()[start.getRow()+1][start.getCol()].isOccupied() ||(b.getSquareArray()[start.getRow()+1][start.getCol()]).getOccupyingPiece().getColor() != color){
+        moves.add(b.getSquareArray()[start.getRow()+1][start.getCol()]);
+      }
+     }
+     if(start.getRow() != 7 && start.getCol() != 7){
+      if(start.getRow() != 6 && start.getCol() != 6){
+        if((b.getSquareArray()[start.getRow()+1][start.getCol()+1]).isOccupied() == false && (!b.getSquareArray()[start.getRow()+2][start.getCol()+2].isOccupied() || ((b.getSquareArray()[start.getRow()+2][start.getCol()+2]).getOccupyingPiece()).getColor() != color)){
+          moves.add(b.getSquareArray()[start.getRow()+2][start.getCol()+2]);
+        }
+      }
+      if(!b.getSquareArray()[start.getRow()+1][start.getCol()+1].isOccupied() || ((b.getSquareArray()[start.getRow()+1][start.getCol()+1]).getOccupyingPiece()).getColor() != color){
+      moves.add(b.getSquareArray()[start.getRow()+1][start.getCol()+1]);
+      }
+     }
+     if(start.getRow() != 7 && start.getCol() != 0){
+      if(start.getRow() != 6 && start.getCol() != 1){
+        if((b.getSquareArray()[start.getRow()+1][start.getCol()-1]).isOccupied() == false && (!b.getSquareArray()[start.getRow()+2][start.getCol()-2].isOccupied() || ((b.getSquareArray()[start.getRow()+2][start.getCol()-2]).getOccupyingPiece()).getColor() != color)){
+          moves.add(b.getSquareArray()[start.getRow()+2][start.getCol()-2]);
+        }
+      }
+      if(!b.getSquareArray()[start.getRow()+1][start.getCol()-1].isOccupied() ||((b.getSquareArray()[start.getRow()+1][start.getCol()-1]).getOccupyingPiece()).getColor() != true){
+      moves.add(b.getSquareArray()[start.getRow()+1][start.getCol()-1]);
+      }
+     }
+     if(start.getRow() != 0 && start.getCol() != 7){
+      if(start.getRow() != 1 && start.getCol() != 6){
+        if((b.getSquareArray()[start.getRow()-1][start.getCol()+1]).isOccupied() == false &&(!b.getSquareArray()[start.getRow()-2][start.getCol()+2].isOccupied() || ((b.getSquareArray()[start.getRow()-2][start.getCol()+2]).getOccupyingPiece()).getColor() != true)){
+          moves.add(b.getSquareArray()[start.getRow()-2][start.getCol()+2]);
+        }
+      }
+      if(!b.getSquareArray()[start.getRow()-1][start.getCol()+1].isOccupied() ||((b.getSquareArray()[start.getRow()-1][start.getCol()+1]).getOccupyingPiece()).getColor() != color){
+      moves.add(b.getSquareArray()[start.getRow()-1][start.getCol()+1]);
+      }
+     }
+     if(start.getRow() != 0 && start.getCol() != 0){
+      if(start.getRow() != 1 && start.getCol() != 1){
+        if((b.getSquareArray()[start.getRow()-1][start.getCol()-1]).isOccupied() == false &&(!b.getSquareArray()[start.getRow()-2][start.getCol()-2].isOccupied() || ((b.getSquareArray()[start.getRow()-2][start.getCol()-2]).getOccupyingPiece()).getColor() != true)){
+          moves.add(b.getSquareArray()[start.getRow()-2][start.getCol()-2]);
+        }
+      }
+      if(!b.getSquareArray()[start.getRow()-1][start.getCol()-1].isOccupied() ||((b.getSquareArray()[start.getRow()-1][start.getCol()-1]).getOccupyingPiece()).getColor() != color){
+      moves.add(b.getSquareArray()[start.getRow()-1][start.getCol()-1]);
+      }
+     }
+    	return moves;
     }
+
 }

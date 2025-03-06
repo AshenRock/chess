@@ -63,6 +63,17 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
       //for (.....)  
 //        	populate the board with squares here. Note that the board is composed of 64 squares alternating from 
 //        	white to black.
+        boolean color = false;
+        for(int row = 0; row < board.length; row++){
+            color = !color;
+            for(int col = 0; col < board[row].length; col++){
+                
+                board[row][col] = new Square(this, color, row, col);
+                this.add(board[row][col]);
+                color = !color;
+            }
+          
+        }
 
         initializePieces();
 
@@ -82,7 +93,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     private void initializePieces() {
     	
     	board[0][0].put(new Piece(true, RESOURCES_WKING_PNG));
-
+        board[1][2].put(new Piece(true, RESOURCES_WKING_PNG));
+        board[board.length-1][0].put(new Piece(false, RESOURCES_BKING_PNG));
     }
 
     public Square[][] getSquareArray() {
@@ -149,20 +161,41 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     @Override
     public void mouseReleased(MouseEvent e) {
         Square endSquare = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
-        
+        System.out.println(currPiece.getControlledSquares(board, endSquare));
         //using currPiece
-        
-       
-        fromMoveSquare.setDisplay(true);
-        currPiece = null;
-        repaint();
+        if(currPiece!= null){
+        for(int i=0; i<currPiece.getLegalMoves(this, fromMoveSquare).size(); i++){
+            if(endSquare == currPiece.getLegalMoves(this, fromMoveSquare).get(i)){
+                endSquare.put(currPiece);
+                fromMoveSquare.put(null);
+                whiteTurn = !whiteTurn;
+    
+            }
+        }
     }
 
+        for(Square [] row : board){
+
+            for(Square s: row){
+                s.setBorder(null);
+
+            }
+        }
+       
+        fromMoveSquare.setDisplay(true);
+       
+        repaint();
+        currPiece = null;
+    }
     @Override
     public void mouseDragged(MouseEvent e) {
         currX = e.getX() - 24;
         currY = e.getY() - 24;
-
+        if(currPiece!=null){
+            for(Square s : currPiece.getLegalMoves(this, fromMoveSquare)){
+                s.setBorder(BorderFactory.createLineBorder(Color.red));
+            }
+        }
         repaint();
     }
 
