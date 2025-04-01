@@ -92,8 +92,28 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	//it's up to you how you wish to arrange your pieces.
     private void initializePieces() {
     	
-    	board[0][0].put(new Prince(true, RESOURCES_WKING_PNG));
-        board[board.length-1][0].put(new Prince(false, RESOURCES_BKING_PNG));
+    	board[0][0].put(new Prince(true, RESOURCES_WROOK_PNG));
+        board[board.length-1][0].put(new Prince(false, RESOURCES_BROOK_PNG));
+        board[board.length-1][7].put(new Prince(false, RESOURCES_BROOK_PNG));
+        board[0][7].put(new Prince(true, RESOURCES_WROOK_PNG));
+        board[0][3].put(new King(true, RESOURCES_WKING_PNG));
+        board[board.length-1][3].put(new King(false, RESOURCES_BKING_PNG));
+        for(int i = 0; i<board.length; i++){
+            board[1][i].put(new Pawn(true, RESOURCES_WPAWN_PNG));
+        }
+        for(int i = 0; i<board.length; i++){
+            board[board.length-2][i].put(new Pawn(false, RESOURCES_BPAWN_PNG));
+        }
+        board[0][4].put(new Queen(true, RESOURCES_WQUEEN_PNG));
+        board[board.length-1][4].put(new Queen(false, RESOURCES_BQUEEN_PNG));
+        board[0][5].put(new LongKnight(true, RESOURCES_WKNIGHT_PNG));
+        board[board.length-1][5].put(new LongKnight(false, RESOURCES_BKNIGHT_PNG));
+        board[0][2].put(new LongKnight(true, RESOURCES_WKNIGHT_PNG));
+        board[board.length-1][2].put(new LongKnight(false, RESOURCES_BKNIGHT_PNG));
+        board[0][6].put(new Bishop(true, RESOURCES_WBISHOP_PNG));
+        board[board.length-1][6].put(new Bishop(false, RESOURCES_BBISHOP_PNG));
+        board[0][1].put(new Bishop(true, RESOURCES_WBISHOP_PNG));
+        board[board.length-1][1].put(new Bishop(false, RESOURCES_BBISHOP_PNG));
     }
 
     public Square[][] getSquareArray() {
@@ -164,18 +184,24 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         System.out.println(currPiece.getControlledSquares(board, endSquare));
         }
         //using currPiece
-        if(currPiece!= null){
+        if(currPiece!= null){-
+            if(isInCheck(whiteTurn)){
+                Piece endPiece = endSquare.getOccupyingPiece();
+                
+             }
             if(currPiece.getColor() == whiteTurn){
         for(int i=0; i<currPiece.getLegalMoves(this, fromMoveSquare).size(); i++){
             if(endSquare == currPiece.getLegalMoves(this, fromMoveSquare).get(i)){
+                if(isInCheck(whiteTurn) != true){
                 endSquare.put(currPiece);
                 fromMoveSquare.put(null);
                 whiteTurn = !whiteTurn;
-    
+                }
+                
             }
         }
     }
-
+    }
         for(Square [] row : board){
 
             for(Square s: row){
@@ -189,7 +215,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         repaint();
         currPiece = null;
     }
-    }
+
     @Override
     public void mouseDragged(MouseEvent e) {
         currX = e.getX() - 24;
@@ -217,5 +243,30 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     @Override
     public void mouseExited(MouseEvent e) {
     }
+    	//precondition - the board is initialized and contains a king of either color. The boolean kingColor corresponds to the color of the king we wish to know the status of.
+          //postcondition - returns true of the king is in check and false otherwise.
+	public boolean isInCheck(boolean kingColor){
+       Square kingLoc = null;
+        for(int i = 0; i <board.length; i++){
+            for(int j = 0; j <board[i].length; j++){
+                Piece cuPiece = board[i][j].getOccupyingPiece();
+                if(cuPiece instanceof King && cuPiece.color == kingColor){
+                    kingLoc = board[i][j];
+                }
+            }
+        }
+        for(int i = 0; i <board.length; i++){
+            for(int j = 0; j <board[i].length; j++){
+                Piece cuPiece = board[i][j].getOccupyingPiece();
+                if(cuPiece != null && cuPiece.color != kingColor){
+                   ArrayList<Square> controlledSquares = cuPiece.getControlledSquares(board, board[i][j]);
+                   if(controlledSquares.contains(kingLoc)){
+                    return true;
+                   }
+                }
+            }
+        }
+		return false;
+}
 
 }
