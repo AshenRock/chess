@@ -106,10 +106,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         }
         board[0][4].put(new Queen(true, RESOURCES_WQUEEN_PNG));
         board[board.length-1][4].put(new Queen(false, RESOURCES_BQUEEN_PNG));
-        board[0][5].put(new LongKnight(true, RESOURCES_WKNIGHT_PNG));
-        board[board.length-1][5].put(new LongKnight(false, RESOURCES_BKNIGHT_PNG));
-        board[0][2].put(new LongKnight(true, RESOURCES_WKNIGHT_PNG));
-        board[board.length-1][2].put(new LongKnight(false, RESOURCES_BKNIGHT_PNG));
+        board[0][5].put(new Knight(true, RESOURCES_WKNIGHT_PNG));
+        board[board.length-1][5].put(new Knight(false, RESOURCES_BKNIGHT_PNG));
+        board[0][2].put(new Knight(true, RESOURCES_WKNIGHT_PNG));
+        board[board.length-1][2].put(new Knight(false, RESOURCES_BKNIGHT_PNG));
         board[0][6].put(new Bishop(true, RESOURCES_WBISHOP_PNG));
         board[board.length-1][6].put(new Bishop(false, RESOURCES_BBISHOP_PNG));
         board[0][1].put(new Bishop(true, RESOURCES_WBISHOP_PNG));
@@ -180,26 +180,29 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     @Override
     public void mouseReleased(MouseEvent e) {
         Square endSquare = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
+        Piece endPiece = endSquare.getOccupyingPiece();
         if(currPiece != null){
         System.out.println(currPiece.getControlledSquares(board, endSquare));
         }
         //using currPiece
-        if(currPiece!= null){-
-            if(isInCheck(whiteTurn)){
-                Piece endPiece = endSquare.getOccupyingPiece();
-                
-             }
+        if(currPiece!= null){
             if(currPiece.getColor() == whiteTurn){
         for(int i=0; i<currPiece.getLegalMoves(this, fromMoveSquare).size(); i++){
             if(endSquare == currPiece.getLegalMoves(this, fromMoveSquare).get(i)){
-                if(isInCheck(whiteTurn) != true){
+              
                 endSquare.put(currPiece);
                 fromMoveSquare.put(null);
+                
+                if(isInCheck(whiteTurn) == true){
+                    fromMoveSquare.put(currPiece);
+                    endSquare.put(endPiece);
+                }
+                else{
                 whiteTurn = !whiteTurn;
                 }
-                
             }
         }
+
     }
     }
         for(Square [] row : board){

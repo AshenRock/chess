@@ -23,7 +23,7 @@ super (isWhite, img_file);
 public ArrayList<Square> getControlledSquares(Square [][] board, Square start)
 {
 ArrayList<Square> tile = new ArrayList<Square>();
-if (color == true){
+if (color == false){
 if(start.getCol() != 7){
 tile.add(board[start.getRow() - 1][start.getCol() + 1]);
 }
@@ -31,7 +31,7 @@ if (start.getCol() != 0){
 tile.add(board[start.getRow() - 1][start.getCol() - 1]);
 }
 }
-if (color == false){
+if (color == true){
 if(start.getCol() != 7){
 tile.add(board[start.getRow() + 1][start.getCol() + 1]);
 }
@@ -51,7 +51,7 @@ return tile;
 //Post-Condition: Will return a list of legal moves, which from the current postion the pawn can move to.
 public ArrayList<Square> getLegalMoves(Board b, Square start){
 ArrayList<Square> tile = new ArrayList<Square>();
-if(color == true){
+if(color == false){
 //if moving for the first time
 int potential = start.getRow();
 potential = potential - 1;
@@ -75,7 +75,7 @@ if (start.getCol() != 7 && b.getSquareArray()[start.getRow() - 1]
 tile.add(b.getSquareArray()[start.getRow() - 1][start.getCol() + 1]);
 }
 }
-if(color == false){
+if(color == true){
 //if moving for the first time
 int potential = start.getRow();
 potential = potential + 1;
